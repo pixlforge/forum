@@ -9,6 +9,11 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    // public function Thread()
+    // {
+    //     return $this->hasMany(Thread::class);
+    // }
+
     /**
      * The attributes that are mass assignable.
      *
