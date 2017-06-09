@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorite;
-use App\Reply;
+use App\User;
 use Illuminate\Http\Request;
 
-class FavoritesController extends Controller
+class ProfilesController extends Controller
 {
-    /**
-     * FavoritesController constructor method
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -42,10 +33,9 @@ class FavoritesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Reply $reply)
+    public function store(Request $request)
     {
-        $reply->favorite();
-        return back();
+        //
     }
 
     /**
@@ -54,9 +44,12 @@ class FavoritesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('profiles.show', [
+            'profileUser' => $user,
+            'threads' => $user->threads()->paginate(18)
+        ]);
     }
 
     /**

@@ -1,7 +1,24 @@
+body,
 .navbar {
-    margin-bottom: 0;
+    background: #eee;
 }
 
-.navbar-default {
-    border: 0;
+.bg-secondary {
+    background: #F5F5F5;
+}
+
+.btn-transparent {
+    background: transparent;
+}
+
+.btn-transparent:hover .fa-star {
+    color: #FDD835;
+}
+
+.btn-transparent:hover:disabled .fa-star {
+    color: inherit;
+}
+
+.close-red:hover {
+    color: #FF0000;
 }

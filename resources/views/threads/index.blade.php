@@ -1,46 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2" style="padding-top: 25px;">
-            <div class="panel panel-default">
-                <div class="panel-heading">Forum Threads</div>
-
-                <div class="panel-body">
-                    @foreach ($threads as $thread)
-                        <article>
-
-                            <div class="level">
-                                
-                                <h4>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 offset-md-1">
+                <h1 class="text-center my-5">Forum Threads</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-columns">
+                @foreach ($threads as $thread)
+                    <article class="card my-2">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                <a href="{{ $thread->path() }}">
+                                    {{ $thread->title }}
+                                </a>
+                            </h4>
+                            <small>
+                                By <a href="/threads?by={{ $thread->owner->name }}">{{ $thread->owner->name }}</a>
+                                &mdash;
+                                <strong>
                                     <a href="{{ $thread->path() }}">
-                                        {{ $thread->title }}
+                                        {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}
                                     </a>
-                                </h4>
-                                
-                                <small>
-                                    By <a href="/threads?by={{ $thread->owner->name }}">{{ $thread->owner->name }}</a>
-                                    &mdash;
-                                    <strong>
-                                        <a href="{{ $thread->path() }}">
-                                            {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}
-                                        </a>
-                                    </strong>
-                                </small>
-
-                            </div>
-
-                            <div class="body" style="padding-top: 25px;">
-                                {{ $thread->body }}
-                            </div>
-                        </article>
-                        
-                        <hr>
-                    @endforeach
-                </div>
+                                </strong>
+                            </small>
+                        </div>
+                        <div class="card-block">
+                            {{ $thread->body }}
+                        </div>
+                    </article>
+                @endforeach
             </div>
         </div>
     </div>
-</div>
+
 @endsection
