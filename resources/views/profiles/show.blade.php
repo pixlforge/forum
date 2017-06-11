@@ -16,24 +16,15 @@
 
             </div>
 
-            @foreach ($threads as $thread)
-
-                <div class="col-4 d-flex align-items-stretch">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">{{ $thread->title }}</h5>
-                            <small>created {{ $thread->created_at->diffForHumans() }}.</small>
-                        </div>
-                        <div class="card-block">
-                            {{ $thread->body }}
-                        </div>
-                    </div>
+            @foreach ($activities as $date => $activity)
+                <div class="col-12 text-center my-5">
+                    <h2>{{ $date }}</h2>
                 </div>
+                @foreach ($activity as $record)
+                    @include ('profiles.activities.' . $record->type, ['activity' => $record])
+                @endforeach
 
             @endforeach
-            <div class="col-12 d-flex justify-content-center my-5">
-                {{ $threads->links('vendor.pagination.bootstrap-4') }}
-            </div>
         </div>
     </div>
 

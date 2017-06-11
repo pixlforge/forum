@@ -8,6 +8,11 @@
             </div>
         </div>
         <div class="row">
+            @if (count($threads) === 0)
+                <div class="col-12">
+                    <h4 class="text-center my-5">There are no relevant results at this time.</h4>
+                </div>
+            @endif
             <div class="card-columns">
                 @foreach ($threads as $thread)
                     <article class="card my-2">

@@ -19,14 +19,16 @@
                         <h2>{{ $thread->title }}</h2>
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('profile', $thread->owner) }}">{{ $thread->owner->name }}</a>
-                            <form action="{{ $thread->path() }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
+                            @can ('update', $thread)
+                                <form action="{{ $thread->path() }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
 
-                                <button type="submit" class="close close-red" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </form>
+                                    <button type="submit" class="close close-red" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
 

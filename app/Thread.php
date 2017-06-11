@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
     protected $with = ['channel'];
 
@@ -27,7 +29,7 @@ class Thread extends Model
             $thread->replies()->delete();
         });
     }
-    
+
     public function path()
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
