@@ -20,7 +20,7 @@ class ParticipateInThreadsTest extends TestCase
             ->post('/threads/channel/thread-id/replies', [])
             ->assertRedirect('/login');
     }
-    
+
     /**
      * An authenticated user may participate in forum threads
      *
@@ -30,7 +30,7 @@ class ParticipateInThreadsTest extends TestCase
     {
         // Given we have an authenticated user
         $this->signIn();
-        
+
         // And an existing thread
         $thread = create('App\Thread');
 
@@ -57,5 +57,43 @@ class ParticipateInThreadsTest extends TestCase
 
         $this->post($thread->path() . '/replies', $reply->toArray())
             ->assertSessionHasErrors('body');
+    }
+
+    /**
+     * Unauthorized users cannot delete replies
+     *
+     * @test
+     */
+    function unauthorized_users_cannot_delete_replies()
+    {
+        $this->withExceptionHandling();
+
+        $reply = create('App\Reply');
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertRedirect('/login');
+
+        $this->signIn()
+            ->delete("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
+
+    /**
+     * Authorized users can delete replies
+     *
+     * @test
+     */
+    function authorized_users_can_delete_replies()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertStatus(302);
+
+        $this->assertDatabaseMissing('replies', [
+            'id' => $reply->id
+        ]);
     }
 }

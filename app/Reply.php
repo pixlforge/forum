@@ -17,6 +17,14 @@ class Reply extends Model
      * Eager load related relationships
      */
     protected $with = ['owner', 'favorites'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($reply) {
+            $reply->favorites->each->delete();
+        });
+    }
     
     public function owner()
     {
