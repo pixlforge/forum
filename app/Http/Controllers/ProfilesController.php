@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -84,16 +85,5 @@ class ProfilesController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * @param User $user
-     * @return mixed
-     */
-    public function getActivity(User $user)
-    {
-        return $user->activity()->latest()->with('subject')->take(50)->get()->groupBy(function ($activity) {
-            return $activity->created_at->format('D, d M Y');
-        });
     }
 }
