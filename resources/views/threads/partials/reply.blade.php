@@ -1,5 +1,5 @@
 <div class="card my-4">
-    <div class="card-header d-flex justify-content-between">
+    <div id="reply-{{ $reply->id }}" class="card-header d-flex justify-content-between">
         <div class="d-flex flex-column">
             <a href="{{ route('profile', $reply->owner) }}">
                 {{ $reply->owner->name }}

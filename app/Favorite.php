@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
-    protected $guarded = [];        
+    use RecordsActivity;
+
+    /**
+     * Disable mass assignment protection for this model
+     */
+    protected $guarded = [];
+
+    public function favorited()
+    {
+        return $this->morphTo();
+    }
 }
