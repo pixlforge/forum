@@ -66,7 +66,8 @@ class ThreadsController extends Controller
             'body' => request('body')
         ]);
 
-        return redirect($thread->path());
+        return redirect($thread->path())
+            ->with('flash', 'Your thread has been published.');
     }
 
     /**
@@ -116,17 +117,14 @@ class ThreadsController extends Controller
     {
         $this->authorize('update', $thread);
 
-//        if ($thread->user_id != auth()->id()) {
-//            abort(403, 'You do not have the permission to do this.');
-//        }
-
         $thread->delete();
 
         if (request()->wantsJson()) {
             return response([], 204);
         }
 
-        return redirect()->route('threads');
+        return redirect()->route('threads')
+            ->with('flash', 'The thread has been deleted.');
     }
 
     /**
