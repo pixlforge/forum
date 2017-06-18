@@ -38,6 +38,25 @@ class FavoritesTest extends TestCase
 
         $this->assertCount(1, $reply->favorites);
     }
+    
+    /**
+     * An authenticated user can unfavorite a reply
+     * 
+     * @test
+     */
+    function an_authenticated_user_can_unfavorite_a_reply()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply');
+
+        $reply->favorite();
+
+//        $this->delete("/replies/{$reply->id}/favorites");
+        $reply->unfavorite();
+
+        $this->assertCount(0, $reply->favorites);
+    }
 
     /**
      * An authenticated user may only favorite a reply once
@@ -53,6 +72,7 @@ class FavoritesTest extends TestCase
 
         try {
             $this->post('replies/' . $reply->id . '/favorites');
+
             $this->post('replies/' . $reply->id . '/favorites');
         } catch (\Exception $e) {
             $this->fail('Did not expect to insert the same record set twice.');

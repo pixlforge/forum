@@ -12,19 +12,12 @@
             </div>
             <div class="d-flex align-items-baseline">
 
-                <form method="POST" action="/replies/{{ $reply->id }}/favorites">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <button type="submit"
-                                class="btn btn-transparent" {{ $reply->isFavorited() ? ' disabled' : '' }}><i
-                                    class="fa fa-star fa-lg"></i></button>
-                    </div>
-                </form>
-
-                <small>{{ $reply->favorites_count }}</small>
+                @if (Auth()->check())
+                    <favorite :reply="{{ $reply }}"></favorite>
+                @endif
 
                 @can ('update', $reply)
-                    <button class="btn btn-transparent ml-2" @click="editing = true">
+                    <button class="btn btn-transparent" @click="editing = true">
                         <i class="fa fa-pencil fa-lg"></i>
                     </button>
 
@@ -39,7 +32,7 @@
         <div class="card-block">
             <div v-if="editing">
                 <div class="form-group">
-                    <textarea class="form-control" rows="15" v-model="body"></textarea>
+                    <textarea class="form-control" v-model="body"></textarea>
                 </div>
             </div>
             <div v-else v-text="body"></div>

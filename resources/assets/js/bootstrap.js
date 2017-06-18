@@ -11,6 +11,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap-sass');
+    // require('autosize');
 } catch (e) {}
 
 window.Vue = require('vue');
