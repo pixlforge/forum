@@ -1,21 +1,78 @@
+<template>
+
+    <div class="card my-4">
+        <div :id="'reply-' + id" class="card-header d-flex justify-content-between">
+            <div class="d-flex flex-column">
+                <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
+                <small>
+                    {{ data.created_at }}
+                </small>
+            </div>
+            <div class="d-flex align-items-baseline">
+
+                <div v-if="signedIn">
+                    <favorite :reply="data"></favorite>
+                </div>
+
+                <div v-if="canUpdate">
+                    <button class="btn btn-transparent" @click="editing = true">
+                        <i class="fa fa-pencil fa-lg"></i>
+                    </button>
+
+                    <button class="btn btn-transparent" @click="destroy">
+                        <i class="fa fa-times fa-lg close-red"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-block">
+            <div v-if="editing">
+                <div class="form-group">
+                    <textarea class="form-control" v-model="body"></textarea>
+                </div>
+            </div>
+            <div v-else v-text="body"></div>
+        </div>
+        <div class="card-footer" v-if="editing">
+            <div class="form-group mt-3">
+                <button class="btn btn-primary btn-sm" @click="update">Update</button>
+                <button class="btn btn-default btn-sm" @click="editing = false">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</template>
+
 <script>
     import Favorite from './Favorite.vue';
 
     export default {
-        props: ['attributes'],
+        props: ['data'],
 
         components: { Favorite },
 
         data() {
             return {
                 editing: false,
-                body: this.attributes.body
+                id: this.data.id,
+                body: this.data.body
             };
+        },
+
+        computed: {
+            signedIn() {
+                return window.App.signedIn;
+            },
+
+            canUpdate() {
+                return this.authorize(user => this.data.user_id == user.id);
+            }
         },
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.attributes.id, {
+                axios.patch('/replies/' + this.data.id, {
                     body: this.body
                 });
 
@@ -24,10 +81,9 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.attributes.id);
-                $(this.$el).fadeOut(400, () => {
-                    flash('The reply was deleted successfully!');
-                });
+                axios.delete('/replies/' + this.data.id);
+
+                this.$emit('deleted', this.data.id);
             }
 
         },
