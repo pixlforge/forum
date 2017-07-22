@@ -39,26 +39,13 @@
                         </div>
                     </div>
 
-                    <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+                    <replies :data="{{ $thread->replies }}"
+                        @added="repliesCount++"
+                        @removed="repliesCount--"></replies>
 
                     {{--{{ $replies->links() }}--}}
 
-                    @if (auth()->check())
-                        <form method="POST" action="{{ $thread->path() . '/replies' }}">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <label for="body">Add a Comment</label>
-                                <textarea class="form-control" id="body" name="body" rows="5"
-                                          placeholder="Have something to say?" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
-                            </div>
-                        </form>
-                    @else
-                        <p class="text-center">Please, <a href="{{ route('login') }}">log in</a> to participate in this
-                            discussion.</p>
-                    @endif
+
                 </div>
 
                 <div class="col-md-4">
