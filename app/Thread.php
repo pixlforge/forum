@@ -17,10 +17,6 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('replyCount', function ($builder) {
-            $builder->withCount('replies');
-        });
-
         static::addGlobalScope('owner', function ($builder) {
             $builder->with('owner');
         });
@@ -31,6 +27,11 @@ class Thread extends Model
         });
     }
 
+    /**
+     * Get the path of a given thread
+     *
+     * @return string
+     */
     public function path()
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
@@ -77,8 +78,32 @@ class Thread extends Model
         return $this->replies()->create($reply);
     }
 
+    /**
+     * @param $query
+     * @param ThreadFilters $filters
+     * @return Builder
+     */
     public function scopeFilter($query, ThreadFilters $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function subscribe($userId = null)
+    {
+        $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
+
+    public function unsubscribe($userId = null)
+    {
+        $this->subscriptions()
+            ->where('user_id', $userId ?: auth()->id())
+            ->delete();
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
     }
 }

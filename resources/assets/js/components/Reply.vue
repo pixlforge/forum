@@ -5,7 +5,7 @@
             <div class="d-flex flex-column">
                 <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
                 <small>
-                    {{ data.created_at }}
+                    <span v-text="ago"></span>
                 </small>
             </div>
             <div class="d-flex align-items-baseline">
@@ -46,6 +46,7 @@
 
 <script>
     import Favorite from './Favorite.vue';
+    import moment from 'moment';
 
     export default {
         props: ['data'],
@@ -61,6 +62,10 @@
         },
 
         computed: {
+            ago() {
+                return moment(this.data.created_at).fromNow();
+            },
+
             signedIn() {
                 return window.App.signedIn;
             },

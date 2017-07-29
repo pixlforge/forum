@@ -46,19 +46,6 @@ class ReadThreadsTest extends TestCase
     }
 
     /**
-     * A user can read replies that are associated with a thread
-     *
-     * @test
-     */
-    public function a_user_can_read_replies_that_are_associated_with_a_thread()
-    {
-        $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
-
-        $this->get($this->thread->path())
-            ->assertSee($reply->body);
-    }
-
-    /**
      * A user can filter threads according to a tag
      *
      * @test
@@ -111,6 +98,37 @@ class ReadThreadsTest extends TestCase
         // Then they should be returned from most replies to least
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
+    
+    /**
+     * A user can filter threads by those that are unanswered
+     * 
+     * @test
+     */
+    function a_user_can_filter_threads_by_those_that_are_unanswered()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id]);
+
+        $response = $this->getJson('/threads?unanswered=1')->json();
+
+        $this->assertCount(1, $response);
+    }
+
+    /**
+     * A user can request all replies for a given thread
+     * 
+     * @test
+     */
+    function a_user_can_request_all_replies_for_a_given_thread()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id]);
+
+        $response = $this->getJson($thread->path() . '/replies')->json();
+
+        $this->assertCount(1, $response['data']);
+    }
+
 }
 
 

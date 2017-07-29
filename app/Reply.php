@@ -23,8 +23,15 @@ class Reply extends Model
     protected static function boot()
     {
         parent::boot();
+
+        static::created(function ($reply) {
+            $reply->thread->increment('replies_count');
+        });
+
         static::deleting(function ($reply) {
             $reply->favorites->each->delete();
+
+            $reply->thread->decrement('replies_count');
         });
     }
     
