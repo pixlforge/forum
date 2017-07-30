@@ -108,4 +108,26 @@ class ThreadTest extends TestCase
         // Then there should not be any user subscribed to the thread
         $this->assertCount(0, $thread->subscriptions);
     }
+
+    /**
+     * Thread knows if the authenticated user is subscribed to it
+     * 
+     * @test
+     */
+    function thread_knows_if_authenticated_user_is_subscribed_to_it()
+    {
+        // Given we have a thread
+        $thread = create('App\Thread');
+
+        // And a user who is authenticated
+        $this->signIn();
+
+        $this->assertFalse($thread->isSubscribedTo);
+
+        // Subscribe to the thread
+        $thread->subscribe();
+
+        // Then the use should be subscribed to the thread
+        $this->assertTrue($thread->isSubscribedTo);
+    }
 }

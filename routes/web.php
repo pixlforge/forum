@@ -23,6 +23,14 @@ Route::post('/threads', 'ThreadsController@store');
 Route::get('/threads/{channel}', 'ThreadsController@index');
 
 /**
+ * Thread subscriptions
+ */
+Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')
+    ->middleware('auth');
+Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')
+    ->middleware('auth');
+
+/**
  * Replies
  */
 Route::get('/threads/{channel}/{thread}/replies', 'RepliesController@index');

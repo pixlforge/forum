@@ -11,7 +11,10 @@ class Thread extends Model
     use RecordsActivity;
 
     protected $guarded = [];
+
     protected $with = ['channel'];
+
+    protected $appends = ['isSubscribedTo'];
 
     protected static function boot()
     {
@@ -88,6 +91,9 @@ class Thread extends Model
         return $filters->apply($query);
     }
 
+    /**
+     * @param null $userId
+     */
     public function subscribe($userId = null)
     {
         $this->subscriptions()->create([
@@ -95,6 +101,9 @@ class Thread extends Model
         ]);
     }
 
+    /**
+     * @param null $userId
+     */
     public function unsubscribe($userId = null)
     {
         $this->subscriptions()
@@ -102,8 +111,18 @@ class Thread extends Model
             ->delete();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subscriptions()
     {
         return $this->hasMany(ThreadSubscription::class);
+    }
+
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
     }
 }
