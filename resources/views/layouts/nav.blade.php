@@ -64,6 +64,8 @@
                     </div>
                 </li>
 
+                <user-notifications></user-notifications>
+
             </ul>
 
         </div>

@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="card-block">
-                            {{ $thread->body }}
+                            {!! nl2br(e($thread->body)) !!}
                         </div>
                     </div>
 
