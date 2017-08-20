@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12 col-md-10 offset-md-1">
@@ -19,7 +20,11 @@
                         <div class="card-header">
                             <h4 class="card-title">
                                 <a href="{{ $thread->path() }}">
-                                    {{ $thread->title }}
+                                    @if ($thread->hasUpdatesFor(auth()->user()))
+                                        <strong>{{ $thread->title }}</strong>
+                                    @else
+                                        {{ $thread->title }}
+                                    @endif
                                 </a>
                             </h4>
                             <small>

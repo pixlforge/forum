@@ -162,4 +162,26 @@ class ThreadTest extends TestCase
         // Then the use should be subscribed to the thread
         $this->assertTrue($thread->isSubscribedTo);
     }
+    
+    /**
+     * A thread can check if the authenticated user has read all replies
+     * 
+     * @test
+     */
+    function a_thread_can_check_if_the_authenticated_user_has_read_all_replies()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+
+        tap(auth()->user(), function ($user) use ($thread) {
+            $this->assertTrue($thread->hasUpdatesFor($user));
+
+            // Simulate that the user visited the thread.
+            $user->read($thread);
+
+            $this->assertFalse($thread->hasUpdatesFor($user));
+        });
+    }
 }
