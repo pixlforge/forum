@@ -27318,13 +27318,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['message'],
-
     data: function data() {
         return {
             body: '',
+            level: 'success',
             show: false
         };
     },
@@ -27335,8 +27338,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.flash(this.message);
         }
 
-        window.events.$on('flash', function (message) {
-            return _this.flash(message);
+        window.events.$on('flash', function (data) {
+            return _this.flash(data);
         });
     },
     destroyed: function destroyed() {
@@ -27345,18 +27348,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (this.message) {
             this.flash(this.message);
         }
-
         window.events.$on('flash', function (message) {
             return _this2.flash(message);
         });
     },
 
-
     methods: {
-        flash: function flash(message) {
-            this.body = message;
+        flash: function flash(data) {
+            this.body = data.message;
+            this.level = data.level;
             this.show = true;
-
             this.hide();
         },
         hide: function hide() {
@@ -27367,7 +27368,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, 3000);
         }
     }
-
 });
 
 /***/ }),
@@ -27409,13 +27409,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-
     computed: {
         signedIn: function signedIn() {
             return window.App.signedIn;
         }
     },
-
     methods: {
         addReply: function addReply() {
             var _this = this;
@@ -27424,10 +27422,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var data = _ref.data;
 
                 _this.body = '';
-
                 flash('Your reply has been posted.');
-
                 _this.$emit('created', data);
+            }).catch(function (error) {
+                flash(error.response.data, 'danger');
             });
         }
     }
@@ -27514,27 +27512,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply_vue___default.a },
-
-    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_collection__["a" /* default */]],
-
     data: function data() {
         return {
             dataSet: false
         };
     },
+
+    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply_vue___default.a },
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_collection__["a" /* default */]],
     created: function created() {
         this.fetch();
     },
-
 
     methods: {
         fetch: function fetch(page) {
@@ -27610,20 +27604,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['data'],
-
-    components: { Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default.a },
-
     data: function data() {
         return {
             editing: false,
@@ -27632,7 +27618,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-
+    components: { Favorite: __WEBPACK_IMPORTED_MODULE_0__Favorite_vue___default.a },
     computed: {
         ago: function ago() {
             return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.data.created_at).fromNow();
@@ -27644,23 +27630,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             return this.authorize(function (user) {
-                return _this.data.user_id == user.id;
+                return _this.data.user_id === user.id;
             });
         }
     },
-
     methods: {
         update: function update() {
             axios.patch('/replies/' + this.data.id, {
                 body: this.body
+            }).catch(function (error) {
+                flash(error.response.data, 'danger');
             });
-
             this.editing = false;
             flash('The reply was updated successfully!');
         },
         destroy: function destroy() {
             axios.delete('/replies/' + this.data.id);
-
             this.$emit('deleted', this.data.id);
         }
     }
@@ -27879,7 +27864,9 @@ if (token) {
 window.events = new Vue();
 
 window.flash = function (message) {
-    window.events.$emit('flash', message);
+    var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+    window.events.$emit('flash', { message: message, level: level });
 };
 
 /**
@@ -58129,7 +58116,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/Favorite.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/Favorite.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Favorite.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58167,7 +58154,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/Flash.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/Flash.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Flash.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58201,7 +58188,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/NewReply.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/NewReply.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] NewReply.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58235,7 +58222,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/Paginator.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/Paginator.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Paginator.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58269,7 +58256,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/Replies.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/Replies.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Replies.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58303,7 +58290,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/Reply.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/Reply.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Reply.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58337,7 +58324,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/SubscribeButton.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/SubscribeButton.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SubscribeButton.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58375,7 +58362,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/components/UserNotifications.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/components/UserNotifications.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserNotifications.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58409,7 +58396,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Heyoka/Webdev/Projects/forum/resources/assets/js/pages/Thread.vue"
+Component.options.__file = "/Users/Heyoka/Webdev/Projects/tutorials/laravel/forum/resources/assets/js/pages/Thread.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -58535,11 +58522,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.show),
       expression: "show"
     }],
-    staticClass: "alert alert-success alert-flash",
+    staticClass: "alert alert-flash",
+    class: 'alert-' + _vm.level,
     attrs: {
       "role": "alert"
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.body)
     }
-  }, [_c('strong', [_vm._v("Success!")]), _vm._v(" " + _vm._s(_vm.body) + "\n")])
+  })
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
