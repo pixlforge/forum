@@ -12998,7 +12998,7 @@ var pl = moment.defineLocale('pl', {
             return monthsNominative;
         } else if (format === '') {
             // Hack: if format empty we know this is used to generate
-            // RegExp by moment. Give then back both valid forms of months
+            // RegExp by moment. Give then back both valid Forms of months
             // in RegExp ready format.
             return '(' + monthsSubjective[momentToFormat.month()] + '|' + monthsNominative[momentToFormat.month()] + ')';
         } else if (/D MMMM/.test(format)) {
@@ -28125,7 +28125,7 @@ if (typeof jQuery === 'undefined') {
 
     if (data.resetText == null) $el.data('resetText', $el[val]())
 
-    // push to event loop to allow forms to submit
+    // push to event loop to allow Forms to submit
     setTimeout($.proxy(function () {
       $el[val](data[state] == null ? this.options[state] : data[state])
 
@@ -40067,7 +40067,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
-// collapse sibling forms: the second one becomes a child of the first one.
+// collapse sibling Forms: the second one becomes a child of the first one.
 // Because of that, this security measure has to be disabled in Safari 8.
 // https://bugs.webkit.org/show_bug.cgi?id=137337
 support.createHTMLDocument = ( function() {
