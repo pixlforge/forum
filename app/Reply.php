@@ -35,7 +35,7 @@ class Reply extends Model
             $reply->thread->decrement('replies_count');
         });
     }
-    
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -57,5 +57,12 @@ class Reply extends Model
     public function wasJustPublished()
     {
         return $this->created_at->gt(Carbon::now()->subMinute());
+    }
+
+    public function mentionedUsers()
+    {
+        preg_match_all('/\@([^\s\.\,]+)/', $this->body, $matches);
+
+        return $matches[1];
     }
 }
