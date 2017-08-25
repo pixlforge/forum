@@ -12998,7 +12998,7 @@ var pl = moment.defineLocale('pl', {
             return monthsNominative;
         } else if (format === '') {
             // Hack: if format empty we know this is used to generate
-            // RegExp by moment. Give then back both valid Forms of months
+            // RegExp by moment. Give then back both valid forms of months
             // in RegExp ready format.
             return '(' + monthsSubjective[momentToFormat.month()] + '|' + monthsNominative[momentToFormat.month()] + ')';
         } else if (/D MMMM/.test(format)) {
@@ -27604,6 +27604,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -28125,7 +28127,7 @@ if (typeof jQuery === 'undefined') {
 
     if (data.resetText == null) $el.data('resetText', $el[val]())
 
-    // push to event loop to allow Forms to submit
+    // push to event loop to allow forms to submit
     setTimeout($.proxy(function () {
       $el[val](data[state] == null ? this.options[state] : data[state])
 
@@ -40067,7 +40069,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
-// collapse sibling Forms: the second one becomes a child of the first one.
+// collapse sibling forms: the second one becomes a child of the first one.
 // Because of that, this security measure has to be disabled in Safari 8.
 // https://bugs.webkit.org/show_bug.cgi?id=137337
 support.createHTMLDocument = ( function() {
@@ -58683,7 +58685,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times fa-lg close-red"
-  })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e()])]), _vm._v(" "), _c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.update($event)
+      }
+    }
+  }, [_c('div', {
     staticClass: "card-block"
   }, [(_vm.editing) ? _c('div', [_c('div', {
     staticClass: "form-group"
@@ -58695,6 +58704,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "body"
     }],
     staticClass: "form-control",
+    attrs: {
+      "required": ""
+    },
     domProps: {
       "value": (_vm.body)
     },
@@ -58714,17 +58726,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group mt-3"
   }, [_c('button', {
     staticClass: "btn btn-primary btn-sm",
-    on: {
-      "click": _vm.update
+    attrs: {
+      "type": "submit"
     }
   }, [_vm._v("Update")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default btn-sm",
+    attrs: {
+      "type": "button"
+    },
     on: {
       "click": function($event) {
         _vm.editing = false
       }
     }
-  }, [_vm._v("Cancel")])])]) : _vm._e()])
+  }, [_vm._v("Cancel")])])]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

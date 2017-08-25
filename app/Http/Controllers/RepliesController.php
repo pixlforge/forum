@@ -15,7 +15,7 @@ class RepliesController extends Controller
     {
         $this->middleware('auth', ['except' => 'index']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +55,7 @@ class RepliesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  \App\Reply $reply
      * @return \Illuminate\Http\Response
      */
     public function show(Reply $reply)
@@ -66,7 +66,7 @@ class RepliesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  \App\Reply $reply
      * @return \Illuminate\Http\Response
      */
     public function edit(Reply $reply)
@@ -77,26 +77,23 @@ class RepliesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reply  $reply
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Reply $reply
      * @return \Illuminate\Http\Response
      */
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
-            $reply->update(request(['body']));
-        } catch (\Exception $exception) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
-        }
+        $this->validate(request(), ['body' => 'required|spamfree']);
+
+        $reply->update(request(['body']));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Reply  $reply
+     * @param  \App\Reply $reply
      * @return \Illuminate\Http\Response
      */
     public function destroy(Reply $reply)

@@ -22,20 +22,22 @@
                 </div>
             </div>
         </div>
-        <div class="card-block">
-            <div v-if="editing">
-                <div class="form-group">
-                    <textarea class="form-control" v-model="body"></textarea>
+        <form @submit.prevent="update">
+            <div class="card-block">
+                <div v-if="editing">
+                    <div class="form-group">
+                        <textarea class="form-control" v-model="body" required></textarea>
+                    </div>
+                </div>
+                <div v-else v-text="body"></div>
+            </div>
+            <div class="card-footer" v-if="editing">
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary btn-sm" type="submit">Update</button>
+                    <button class="btn btn-default btn-sm" type="button" @click="editing = false">Cancel</button>
                 </div>
             </div>
-            <div v-else v-text="body"></div>
-        </div>
-        <div class="card-footer" v-if="editing">
-            <div class="form-group mt-3">
-                <button class="btn btn-primary btn-sm" @click="update">Update</button>
-                <button class="btn btn-default btn-sm" @click="editing = false">Cancel</button>
-            </div>
-        </div>
+        </form>
     </div>
 </template>
 
