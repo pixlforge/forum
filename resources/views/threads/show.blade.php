@@ -21,20 +21,39 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">
-                            <h2>{{ $thread->title }}</h2>
-                            <div class="d-flex justify-content-between">
-                                <a href="{{ route('profile', $thread->owner) }}">{{ $thread->owner->name }}</a>
-                                @can ('update', $thread)
-                                    <form action="{{ $thread->path() }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
+                        <div class="card-header d-flex align-items-center">
 
-                                        <button type="submit" class="close close-red" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </form>
-                                @endcan
+                            {{--Avatar--}}
+                            <div class="col-12 col-lg-3">
+                                <img src="{{ asset('storage/' . $thread->owner->avatar()) }}" class="img-fluid rounded" alt="">
+                            </div>
+
+                            <div class="col-12 col-lg-9">
+
+                                {{--Thread title--}}
+                                <h2>{{ $thread->title }}</h2>
+
+                                <div class="d-flex justify-content-between">
+
+                                    {{--Thread owner--}}
+                                    <div>
+                                        <a href="{{ route('profile', $thread->owner) }}">{{ $thread->owner->name }}</a>
+                                    </div>
+
+                                    {{--Delete thread--}}
+                                    <div>
+                                        @can ('update', $thread)
+                                            <form action="{{ $thread->path() }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+
+                                                <button type="submit" class="close close-red" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
