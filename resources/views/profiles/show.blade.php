@@ -10,20 +10,7 @@
                 <div class="card my-5">
                     <div class="card-block row">
 
-                        <div class="col-6 col-lg-2">
-                            <img src="{{ asset('storage/' . $profileUser->avatar_path) }}" class="img-fluid rounded mb-4" alt="Avatar">
-                            @can('update', $profileUser)
-                                <form method="POST" action="{{ route('avatar', $profileUser) }}" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <input type="file" name="avatar">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-sm btn-primary" type="submit">Upload Avatar</button>
-                                    </div>
-                                </form>
-                            @endcan
-                        </div>
+                        <app-avatar-form :user="{{ $profileUser }}"></app-avatar-form>
 
                         <div class="col-6 col-lg-10">
                             <h2 class="card-title mt-2">{{ $profileUser->name }}</h2>

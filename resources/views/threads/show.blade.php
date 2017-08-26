@@ -25,7 +25,7 @@
 
                             {{--Avatar--}}
                             <div class="col-12 col-lg-3">
-                                <img src="{{ asset('storage/' . $thread->owner->avatar()) }}" class="img-fluid rounded" alt="">
+                                <img src="{{ asset('storage/' . $thread->owner->avatar_path) }}" class="img-fluid rounded" alt="">
                             </div>
 
                             <div class="col-12 col-lg-9">
