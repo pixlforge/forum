@@ -15,7 +15,6 @@
                     <button class="btn btn-transparent" @click="editing = true">
                         <i class="fa fa-pencil fa-lg"></i>
                     </button>
-
                     <button class="btn btn-transparent" @click="destroy">
                         <i class="fa fa-times fa-lg close-red"></i>
                     </button>
@@ -29,7 +28,7 @@
                         <textarea class="form-control" v-model="body" required></textarea>
                     </div>
                 </div>
-                <div v-else v-text="body"></div>
+                <div v-else v-html="body"></div>
             </div>
             <div class="card-footer" v-if="editing">
                 <div class="form-group mt-3">
