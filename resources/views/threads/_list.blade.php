@@ -1,7 +1,7 @@
 @foreach ($threads as $thread)
     <article class="card my-2">
         <div class="card-header">
-            <h4 class="card-title">
+            <h4 class="card-title text-capitalize">
                 <a href="{{ $thread->path() }}">
                     @if (auth()->check() && $thread->hasUpdatesFor(auth()->user()))
                         <strong>{{ $thread->title }}</strong>
@@ -29,10 +29,10 @@
             {{ $thread->body }}
         </div>
 
-        @if ($thread->visits()->count())
+        @if ($thread->visits)
             <div class="card-footer text-center">
-                <strong>{{ $thread->visits()->count() }}</strong>
-                {{ str_plural('visit', $thread->visits()->count()) }}
+                <strong>{{ $thread->visits }}</strong>
+                {{ str_plural('visit', $thread->visits) }}
             </div>
         @endif
 

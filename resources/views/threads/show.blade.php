@@ -7,7 +7,7 @@
 @section('content')
 
 
-    <ol class="breadcrumb bg-secondary">
+    <ol class="breadcrumb bg-secondary text-capitalize">
         <div class="container">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="/threads">All Threads</a></li>
@@ -31,7 +31,7 @@
                             <div class="col-12 col-lg-9">
 
                                 {{--Thread title--}}
-                                <h2>{{ $thread->title }}</h2>
+                                <h2 class="text-capitalize">{{ $thread->title }}</h2>
 
                                 <div class="d-flex justify-content-between">
 

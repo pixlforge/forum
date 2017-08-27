@@ -145,14 +145,4 @@ class Thread extends Model
 
         return $this->updated_at > cache($key);
     }
-
-    /**
-     * Return number of visits
-     *
-     * @return mixed
-     */
-    public function visits()
-    {
-        return new Visits($this);
-    }
 }
