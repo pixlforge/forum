@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Thread;
+use App\Trending;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 
 class ThreadsController extends Controller
 {
@@ -19,14 +19,16 @@ class ThreadsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
+
     /**
      * Display a listing of the resource.
      *
      * @param Channel $channel
      * @param ThreadFilters $filters
-     * @return \Illuminate\Http\Response
+     * @param Trending $trendingThreads
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
      */
-    public function index(Channel $channel, ThreadFilters $filters)
+    public function index(Channel $channel, ThreadFilters $filters, Trending $trendingThreads)
     {
         $threads = $this->getThreads($channel, $filters);
 
@@ -34,9 +36,10 @@ class ThreadsController extends Controller
             return $threads;
         }
 
-        $trendingThreads = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
-
-        return view('threads.index', compact('threads', 'trendingThreads'));
+        return view('threads.index', [
+            'threads' => $threads,
+            'trendingThreads' => $trendingThreads->get()
+        ]);
     }
 
     /**
@@ -77,19 +80,18 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @param $channelId
+     * @param Thread $thread
+     * @param Trending $trendingThread
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($channelId, Thread $thread)
+    public function show($channelId, Thread $thread, Trending $trendingThread)
     {
         if (auth()->check()) {
             auth()->user()->read($thread);
         }
 
-        Redis::zincrby('trending_threads', 1, json_encode([
-            'title' => $thread->title,
-            'path' => $thread->path()
-        ]));
+        $trendingThread->push($thread);
 
         return view('threads.show', compact('thread'));
     }
