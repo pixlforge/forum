@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, RecordsVisits;
 
     protected $guarded = [];
 
@@ -136,6 +136,7 @@ class Thread extends Model
     }
 
     /**
+     * @param $user
      * @return bool
      */
     public function hasUpdatesFor($user)

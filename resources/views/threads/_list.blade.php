@@ -11,17 +11,30 @@
                 </a>
             </h4>
             <small>
-                By <a href="/threads?by={{ $thread->owner->name }}">{{ $thread->owner->name }}</a>
+                By
+                <a href="/threads?by={{ $thread->owner->name }}">
+                    {{ $thread->owner->name }}
+                </a>
                 &mdash;
                 <strong>
                     <a href="{{ $thread->path() }}">
-                        {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}
+                        {{ $thread->replies_count }}
+                        {{ str_plural('comment', $thread->replies_count) }}
                     </a>
                 </strong>
             </small>
         </div>
+
         <div class="card-block">
             {{ $thread->body }}
         </div>
+
+        @if ($thread->visits())
+            <div class="card-footer text-center">
+                <strong>{{ $thread->visits() }}</strong>
+                {{ str_plural('visit', $thread->visits()) }}
+            </div>
+        @endif
+
     </article>
 @endforeach
