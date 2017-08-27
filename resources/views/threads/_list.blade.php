@@ -29,10 +29,10 @@
             {{ $thread->body }}
         </div>
 
-        @if ($thread->visits())
+        @if ($thread->visits()->count())
             <div class="card-footer text-center">
-                <strong>{{ $thread->visits() }}</strong>
-                {{ str_plural('visit', $thread->visits()) }}
+                <strong>{{ $thread->visits()->count() }}</strong>
+                {{ str_plural('visit', $thread->visits()->count()) }}
             </div>
         @endif
 
