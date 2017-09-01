@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Inspections\Spam;
 use Tests\TestCase;
+use App\Inspections\Spam;
 
 class SpamTest extends TestCase
 {

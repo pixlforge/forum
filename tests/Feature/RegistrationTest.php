@@ -2,18 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Mail\PleaseConfirmYourEmail;
 use App\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Mail\PleaseConfirmYourEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegistrationTest extends TestCase
 {
-    use DatabaseMigrations;
-    
+    use RefreshDatabase;
+
     /**
      * A confirmation email is sent upon registration
      * 
@@ -30,7 +28,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'secret'
         ]);
 
-        Mail::assertSent(PleaseConfirmYourEmail::class);
+        Mail::assertQueued(PleaseConfirmYourEmail::class);
     }
     
     /**

@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Notifications\DatabaseNotification;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class NotificationsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {

@@ -21,18 +21,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    @yield('styles')
+    @yield ('styles')
 
 </head>
 <body>
 
 <div id="app">
     <header>
-        @include('layouts.nav')
+        @include ('layouts.nav')
     </header>
 
     <main>
-        @yield('content')
+        @yield ('content')
     </main>
 
     <flash message="{{ session('flash') }}"></flash>
@@ -45,7 +45,7 @@
 <script src="https://use.fontawesome.com/61d770e855.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 
-@yield('scripts')
+@yield ('scripts')
 
 </body>
 </html>

@@ -3,16 +3,16 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReadThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     protected $thread;
 
     /**
-     * Function setUp
+     * Method setUp
      *
      * We need to call parent::setUp() because ReadThreadsTest extends TestCase
      */

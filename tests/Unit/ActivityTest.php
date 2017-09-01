@@ -5,12 +5,11 @@ namespace Tests\Unit;
 use App\Activity;
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ActivityTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
     
     /**
      * It records activity when a thread is created
