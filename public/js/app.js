@@ -39196,6 +39196,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -39206,7 +39213,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             editing: false,
             id: this.data.id,
-            body: this.data.body
+            body: this.data.body,
+            isBest: false
         };
     },
 
@@ -39239,6 +39247,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         destroy: function destroy() {
             axios.delete('/replies/' + this.data.id);
             this.$emit('deleted', this.data.id);
+        },
+        markBestReply: function markBestReply() {
+            this.isBest = true;
         }
     }
 });
@@ -60488,6 +60499,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card my-4"
   }, [_c('div', {
     staticClass: "card-header d-flex justify-content-between",
+    class: _vm.isBest ? 'bg-success' : '',
     attrs: {
       "id": 'reply-' + _vm.id
     }
@@ -60526,6 +60538,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times fa-lg close-red"
+  })]), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.isBest),
+      expression: "! isBest"
+    }],
+    staticClass: "btn btn-transparent",
+    on: {
+      "click": _vm.markBestReply
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-check-circle fa-lg"
   })])]) : _vm._e()])]), _vm._v(" "), _c('form', {
     on: {
       "submit": function($event) {
@@ -60535,7 +60560,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "card-block"
-  }, [(_vm.editing) ? _c('div', [_c('div', {
+  }, [(_vm.editing) ? _c('div', {
     staticClass: "form-group"
   }, [_c('textarea', {
     directives: [{
@@ -60557,7 +60582,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.body = $event.target.value
       }
     }
-  })])]) : _c('div', {
+  })]) : _c('div', {
     domProps: {
       "innerHTML": _vm._s(_vm.body)
     }
