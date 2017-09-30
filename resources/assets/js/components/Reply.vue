@@ -13,7 +13,7 @@
                 <div v-if="signedIn">
                     <favorite :reply="data"></favorite>
                 </div>
-                <div v-if="canUpdate">
+                <div v-if="authorize('updateReply', reply)">
                     <button class="btn btn-transparent"
                             @click="editing = true">
                         <i class="fa fa-pencil fa-lg"></i>
@@ -24,7 +24,7 @@
                     </button>
                     <button class="btn btn-transparent"
                             @click="markBestReply"
-                            v-show="! isBest">
+                            v-show="!isBest">
                         <i class="fa fa-check-circle fa-lg"></i>
                     </button>
                 </div>
@@ -58,19 +58,19 @@
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
-                isBest: false
+                isBest: this.data.isBest,
+                reply: this.data
             };
         },
         components: {Favorite},
+        created() {
+            window.events.$on('best-reply-selected', id => {
+                this.isBest = (id === this.id);
+            });
+        },
         computed: {
             ago() {
                 return moment(this.data.created_at).fromNow();
-            },
-            signedIn() {
-                return window.App.signedIn;
-            },
-            canUpdate() {
-                return this.authorize(user => this.data.user_id === user.id);
             }
         },
         methods: {
@@ -89,7 +89,8 @@
                 this.$emit('deleted', this.data.id);
             },
             markBestReply() {
-                this.isBest = true;
+                axios.post('/replies/' + this.id + '/best');
+                window.events.$emit('best-reply-selected', this.id);
             }
         },
     }

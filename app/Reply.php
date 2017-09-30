@@ -17,9 +17,16 @@ class Reply extends Model
     /**
      * Eager load related relationships
      */
-    protected $with = ['owner', 'favorites'];
+    protected $with = [
+        'owner',
+        'favorites'
+    ];
 
-    protected $appends = ['favoritesCount', 'isFavorited'];
+    protected $appends = [
+        'favoritesCount',
+        'isFavorited',
+        'isBest'
+    ];
 
     protected static function boot()
     {

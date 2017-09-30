@@ -39,7 +39,7 @@ trait Favoritable
     }
 
     /**
-     *
+     * Unfavorite
      */
     public function unfavorite()
     {
@@ -70,5 +70,13 @@ trait Favoritable
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsBestAttribute()
+    {
+        return $this->isBest();
     }
 }
