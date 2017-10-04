@@ -36,9 +36,8 @@ class Reply extends Model
             $reply->thread->increment('replies_count');
         });
 
-        static::deleting(function ($reply) {
+        static::deleted(function ($reply) {
             $reply->favorites->each->delete();
-
             $reply->thread->decrement('replies_count');
         });
     }
