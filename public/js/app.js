@@ -39197,19 +39197,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['data'],
+    props: ['reply'],
     data: function data() {
         return {
             editing: false,
-            id: this.data.id,
-            body: this.data.body,
-            isBest: this.data.isBest,
-            reply: this.data
+            id: this.id,
+            body: this.reply.body,
+            isBest: this.reply.isBest
         };
     },
 
@@ -39224,12 +39226,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         ago: function ago() {
-            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.data.created_at).fromNow();
+            return __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.reply.created_at).fromNow();
         }
     },
     methods: {
         update: function update() {
-            axios.patch('/replies/' + this.data.id, {
+            axios.patch('/replies/' + this.id, {
                 body: this.body
             }).catch(function (error) {
                 flash(error.response.data, 'danger');
@@ -39238,8 +39240,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             flash('The reply was updated successfully!');
         },
         destroy: function destroy() {
-            axios.delete('/replies/' + this.data.id);
-            this.$emit('deleted', this.data.id);
+            axios.delete('/replies/' + this.id);
+            this.$emit('deleted', this.id);
         },
         markBestReply: function markBestReply() {
             axios.post('/replies/' + this.id + '/best');
@@ -39413,8 +39415,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var user = window.App.user;
 
 module.exports = {
-    updateReply: function updateReply(reply) {
-        return reply.user_id === user.id;
+    owns: function owns(model) {
+        var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'user_id';
+
+        return model[prop] === user.id;
     }
 };
 
@@ -60517,10 +60521,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "d-flex flex-column"
   }, [_c('a', {
     attrs: {
-      "href": '/profiles/' + _vm.data.owner.name
+      "href": '/profiles/' + _vm.reply.owner.name
     },
     domProps: {
-      "textContent": _vm._s(_vm.data.owner.name)
+      "textContent": _vm._s(_vm.reply.owner.name)
     }
   }), _vm._v(" "), _c('small', [_c('span', {
     domProps: {
@@ -60530,9 +60534,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "d-flex align-items-baseline"
   }, [(_vm.signedIn) ? _c('div', [_c('favorite', {
     attrs: {
-      "reply": _vm.data
+      "reply": _vm.reply
     }
-  })], 1) : _vm._e(), _vm._v(" "), (_vm.authorize('updateReply', _vm.reply)) ? _c('div', [_c('button', {
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.authorize('owns', _vm.reply)) ? _c('div', [_c('button', {
     staticClass: "btn btn-transparent",
     on: {
       "click": function($event) {
@@ -60548,20 +60552,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times fa-lg close-red"
-  })]), _vm._v(" "), _c('button', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (!_vm.isBest),
-      expression: "!isBest"
-    }],
+  })]), _vm._v(" "), (_vm.authorize('owns', _vm.reply.thread)) ? _c('button', {
     staticClass: "btn btn-transparent",
     on: {
       "click": _vm.markBestReply
     }
   }, [_c('i', {
     staticClass: "fa fa-check-circle fa-lg"
-  })])]) : _vm._e()])]), _vm._v(" "), _c('form', {
+  })]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('form', {
     on: {
       "submit": function($event) {
         $event.preventDefault();
@@ -60756,7 +60754,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: reply.id
     }, [_c('reply', {
       attrs: {
-        "data": reply
+        "reply": reply
       },
       on: {
         "deleted": function($event) {
