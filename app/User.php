@@ -37,11 +37,33 @@ class User extends Authenticatable
     ];
 
     /**
+     * Route key name.
+     *
      * @return string
      */
     public function getRouteKeyName()
     {
         return 'name';
+    }
+
+    /**
+     * Check wether the authenticated User is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array($this->name, ['John Doe', 'Jane Doe']);
+    }
+
+    /**
+     * Inverse of isAdmin method.
+     *
+     * @return bool
+     */
+    public function isNotAdmin()
+    {
+        return ! $this->isAdmin();
     }
 
     /**

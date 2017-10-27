@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Thread;
+use Illuminate\Http\Request;
+
+class LockedThreadsController extends Controller
+{
+    /**
+     * LockedThreadsController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware(['must-be-admin']);
+    }
+
+    public function store(Thread $thread)
+    {
+        $thread->lock();
+    }
+}
