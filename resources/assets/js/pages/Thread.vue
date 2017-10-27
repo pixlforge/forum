@@ -3,16 +3,26 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
 
     export default {
-        props: ['initialRepliesCount'],
-
+        props: ['data-thread'],
+        data() {
+            return {
+                repliesCount: this.dataThread.replies_count,
+                locked: this.dataThread.locked
+            }
+        },
         components: {
             Replies,
             SubscribeButton
         },
-
-        data() {
-            return {
-                repliesCount: this.initialRepliesCount
+        methods: {
+            toggleLock() {
+                if (this.locked == false) {
+                    this.locked = true;
+                    axios.post('/locked-threads/' + this.dataThread.slug);
+                } else {
+                    this.locked = false;
+                    axios.delete('/locked-threads/' + this.dataThread.slug);
+                }
             }
         }
     }

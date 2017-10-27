@@ -39097,6 +39097,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -39394,17 +39397,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['initialRepliesCount'],
+    props: ['data-thread'],
+    data: function data() {
+        return {
+            repliesCount: this.dataThread.replies_count,
+            locked: this.dataThread.locked
+        };
+    },
 
     components: {
         Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default.a,
         SubscribeButton: __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default.a
     },
-
-    data: function data() {
-        return {
-            repliesCount: this.initialRepliesCount
-        };
+    methods: {
+        toggleLock: function toggleLock() {
+            if (this.locked == false) {
+                this.locked = true;
+                axios.post('/locked-threads/' + this.dataThread.slug);
+            } else {
+                this.locked = false;
+                axios.delete('/locked-threads/' + this.dataThread.slug);
+            }
+        }
     }
 });
 
@@ -39419,6 +39433,9 @@ module.exports = {
         var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'user_id';
 
         return model[prop] === user.id;
+    },
+    isAdmin: function isAdmin() {
+        return ['John Doe', 'Jane Doe'].includes(user.name);
     }
 };
 
@@ -60769,11 +60786,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "changed": _vm.fetch
     }
-  }), _vm._v(" "), _c('new-reply', {
+  }), _vm._v(" "), (!_vm.$parent.locked) ? _c('new-reply', {
     on: {
       "created": _vm.add
     }
-  })], 2)
+  }) : _c('p', {
+    staticClass: "text-center mt-3"
+  }, [_vm._v("\n        This thread has been locked.\n    ")])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

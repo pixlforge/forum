@@ -15,7 +15,7 @@
         </div>
     </ol>
 
-    <thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
+    <thread-view :data-thread="{{ $thread }}" inline-template>
 
         <div class="container my-5">
             <div class="row">
@@ -78,7 +78,24 @@
                                 {{ str_plural('comment', $thread->replies_count) }}.
                             </p>
 
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+                            {{--Subscribe--}}
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"
+                                              v-if="signedIn"></subscribe-button>
+
+                            {{--Lock--}}
+                            <button class="btn btn-danger"
+                               v-if="authorize('isAdmin')"
+                               @click="toggleLock">
+                                <span v-if="! locked">
+                                    <i class="fa fa-lock mr-2"></i>
+                                    Lock
+                                </span>
+                                <span v-else>
+                                    <i class="fa fa-unlock mr-2"></i>
+                                    Unlock
+                                </span>
+                            </button>
+
                         </div>
                     </div>
                 </div>

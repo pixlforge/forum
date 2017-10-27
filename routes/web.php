@@ -27,6 +27,7 @@ Route::get('/threads/{channel}', 'ThreadsController@index');
  * Locked Threads
  */
 Route::post('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store');
+Route::delete('/locked-threads/{thread}', 'LockedThreadsController@destroy')->name('locked-threads.destroy');
 
 /**
  * Thread subscriptions
